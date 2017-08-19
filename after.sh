@@ -76,6 +76,12 @@ if [ ! -f /usr/local/extra_homestead_software_installed ]; then
 	apt-get -y install percona-xtrabackup-24
 
 	#
+	# percona toolkit
+	#
+	echo 'installing percona toolkit...'	
+	apt-get -y install percona-toolkit
+	
+	#
 	# PHP LIB
 	#
 	echo "installing php lib ..."
