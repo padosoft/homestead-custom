@@ -1,0 +1,42 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+provider: virtualbox
+
+mariadb: true
+mongodb: true
+
+authorize: C:\Users\Lore\.ssh\github_rsa.pub
+
+keys:
+    - C:\Users\Lore\.ssh\github_rsa
+
+folders:
+    - map: C:\xampp\htdocs
+      to: /home/vagrant/Code
+
+sites:
+    - map: testhomestead.dev
+      to: /home/vagrant/Code/testhomestead/public
+      schedule: true
+
+databases:
+    - homestead
+
+variables:
+    - key: APP_ENV
+      value: local
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+#ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
