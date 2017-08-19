@@ -74,6 +74,7 @@ if [ ! -f /usr/local/extra_homestead_software_installed ]; then
 	dpkg -i percona-release_0.1-4.${rel}_all.deb
 	apt-get update
 	apt-get -y install percona-xtrabackup-24
+	rm percona-release_0.1-4.${rel}_all.deb
 
 	#
 	# percona toolkit
@@ -165,6 +166,7 @@ mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
 	#
 	curl https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz
 	tar xvf go1.6.linux-amd64.tar.gz
+	rm go1.6.linux-amd64.tar.gz
 	chown -R root:root ./go
 	mv go /usr/local
 	echo "export GOPATH=\$HOME/work" >> $VAGRANTHOME.profile
