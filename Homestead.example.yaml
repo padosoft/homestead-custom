@@ -17,8 +17,8 @@ folders:
       to: /home/vagrant/Code
 
 sites:
-    - map: testhomestead.dev
-      to: /home/vagrant/Code/testhomestead/public
+    - map: homestead.dev
+      to: /home/vagrant/Code/homestead/public
       schedule: true
 
 databases:
