@@ -164,23 +164,23 @@ mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
 	#
 	# Install go
 	#
-	curl https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz
-	tar xvf go1.6.linux-amd64.tar.gz
-	rm go1.6.linux-amd64.tar.gz
-	chown -R root:root ./go
-	mv go /usr/local
-	echo "export GOPATH=\$HOME/work" >> $VAGRANTHOME.profile
-	echo "export PATH=\$PATH:/usr/local/go/bin:\$GOPATH/bin" >> $VAGRANTHOME.profile
-	source $VAGRANTHOME.profile
+	#wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz
+	#tar xvf go1.6.linux-amd64.tar.gz
+	#rm go1.6.linux-amd64.tar.gz
+	#chown -R root:root ./go
+	#mv go /usr/local
+	#echo "export GOPATH=\$HOME/work" >> $VAGRANTHOME.profile
+	#echo "export PATH=\$PATH:/usr/local/go/bin:\$GOPATH/bin" >> $VAGRANTHOME.profile
+	#source $VAGRANTHOME.profile
 	
     #
-    # Install MailHog
+    # Install MailHog (require go lang)
 	#
-    go get github.com/mailhog/MailHog
-	wget https://raw.githubusercontent.com/geerlingguy/ansible-role-mailhog/master/templates/mailhog.init.j2
-	mv -f $VAGRANTHOME.mailhog.init.j2 /etc/init.d/mailhog
-	chmod +x /etc/init.d/mailhog
-    update-rc.d mailhog defaults 95 10
+    #go get github.com/mailhog/MailHog
+	#wget https://raw.githubusercontent.com/geerlingguy/ansible-role-mailhog/master/templates/mailhog.init.j2
+	#mv -f $VAGRANTHOME.mailhog.init.j2 /etc/init.d/mailhog
+	#chmod +x /etc/init.d/mailhog
+    #update-rc.d mailhog defaults 95 10
 		
 	#
     # elasticsearch 
