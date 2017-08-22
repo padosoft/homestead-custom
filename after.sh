@@ -11,58 +11,70 @@ if [ ! -f /usr/local/extra_homestead_software_installed ]; then
 
 	
     # We should be super user 
+	echo 'We should be super user ...'
     sudo -s 
-
+    
+	#suppress every further questions (ex.: apt-get -y install iptables-persistent show prompt)	
+	echo "suppress every further questions ..."
+	export DEBIAN_FRONTEND=noninteractive
+	
 	#
 	# Time zone
 	#
 	echo 'set timezone'
-	timedatectl set-timezone Europe/Rome
+	sudo timedatectl set-timezone Europe/Rome
 	
 	#
-	# firewall
+	# firewall: make iptables persistent
+	# Warning actually on windows do not bypass prompt!
 	#
-	echo 'make iptables persistent'
-	apt-get -y install iptables-persistent
+	#echo 'make iptables persistent'
+	#sudo apt-get -y install iptables-persistent
 
 	#
 	# custom nano
 	#
 	echo 'costomize nano'
-	mkdir /usr/share/nano/scopatz
+	if [ -d /usr/share/nano/scopatz ]; then
+		sudo rm -f -s /usr/share/nano/scopatz
+	fi	
+	sudo mkdir /usr/share/nano/scopatz
 	cd  /usr/share/nano/scopatz
-	git clone https://github.com/scopatz/nanorc.git
-	cat /usr/share/nano/scopatz/nanorc/*.nanorc >> /etc/nanorc
+	sudo git clone https://github.com/scopatz/nanorc.git
+	if [ -f /etc/nanorc ]; then
+		sudo rm -f /etc/nanorc
+	fi	
+	sudo cat /usr/share/nano/scopatz/nanorc/*.nanorc >> /etc/nanorc
 	cd $VAGRANTHOME
 	
 	#
 	# Utilities
 	#
-	apt-get -y install htop
-	apt-get -y install atop
-	apt-get -y install multitail
-	apt-get -y install goaccess
-	apt-get -y install apachetop
-	apt-get -y install mytop
-	apt-get -y install ncdu
-	apt-get -y install mc
-	apt-get -y install whois
-	apt-get -y install checkinstall
-	apt-get -y install apache2-utils 
-	apt-get -y install gdb
-	apt-get -y install iptraf
-	apt-get -y install iotop
-	apt-get -y install dnsutils
-	apt-get -y install locate
-	updatedb
-	apt-get -y install python-pip
-	apt-get -y install gcc make git libpcap0.8-dev
-	apt-get -y install httpry
-	apt-get -y install mydumper
-	apt-get -y install build-essential
-	apt-get -y install software-properties-common
-	pip install ngxtop
-	pip install --upgrade pip
+	sudo apt-get -y install htop
+	sudo apt-get -y install atop
+	sudo apt-get -y install multitail
+	sudo apt-get -y install goaccess
+	sudo apt-get -y install apachetop
+	sudo apt-get -y install mytop
+	sudo apt-get -y install ncdu
+	sudo apt-get -y install mc
+	sudo apt-get -y install whois
+	sudo apt-get -y install checkinstall
+	sudo apt-get -y install apache2-utils 
+	sudo apt-get -y install gdb
+	sudo apt-get -y install iptraf
+	sudo apt-get -y install iotop
+	sudo apt-get -y install dnsutils
+	sudo apt-get -y install locate
+	sudo updatedb
+	sudo apt-get -y install python-pip
+    sudo apt-get -y install gcc make git libpcap0.8-dev
+	sudo apt-get -y install httpry
+	sudo apt-get -y install mydumper
+	sudo apt-get -y install build-essential
+	sudo apt-get -y install software-properties-common
+	sudo pip install ngxtop
+	sudo pip install --upgrade pip
 	
 	#
 	# percona Xtrabackup
@@ -70,38 +82,41 @@ if [ ! -f /usr/local/extra_homestead_software_installed ]; then
 	echo 'installing percona Xtrabackup...'
 	cd $VAGRANTHOME
 	rel=$(lsb_release -sc)
-	wget https://repo.percona.com/apt/percona-release_0.1-4.${rel}_all.deb
-	dpkg -i percona-release_0.1-4.${rel}_all.deb
-	apt-get update
-	apt-get -y install percona-xtrabackup-24
-	rm percona-release_0.1-4.${rel}_all.deb
+	if [ -f ${VAGRANTHOME}percona-release_0.1-4.${rel}_all.deb ]; then
+		sudo rm -f ${VAGRANTHOME}percona-release_0.1-4.${rel}_all.deb
+	fi	
+	sudo wget https://repo.percona.com/apt/percona-release_0.1-4.${rel}_all.deb
+	sudo dpkg -i percona-release_0.1-4.${rel}_all.deb
+	sudo apt-get update
+	sudo apt-get -y install percona-xtrabackup-24
+	sudo rm -f percona-release_0.1-4.${rel}_all.deb
 
 	#
 	# percona toolkit
 	#
 	echo 'installing percona toolkit...'	
-	apt-get -y install percona-toolkit
+	sudo apt-get -y install percona-toolkit
 	
 	#
 	# PHP LIB
 	#
 	echo "installing php lib ..."
-	apt-get -y install php-redis
-	apt-get -y install php7.1-bz2
-	apt-get -y install php-imagick
+	sudo apt-get -y install php-redis
+	sudo apt-get -y install php7.1-bz2
+	sudo apt-get -y install php-imagick
 	
 	#
 	# Restart php/nginx services
 	#
 	echo "Restart php/nginx services ..."
-    service php7.1-fpm restart
-    service nginx restart   
+    sudo service php7.1-fpm restart
+    sudo service nginx restart   
 
     #
     # install zsh
     #
 	echo 'installing zsh'
-    apt-get -y install zsh
+    sudo apt-get -y install zsh
 	
     #
     # install oh my zhs
@@ -110,17 +125,23 @@ if [ ! -f /usr/local/extra_homestead_software_installed ]; then
     #
 	cd $VAGRANTHOME
 	ZSH=/home/vagrant/.oh-my-zsh
-    git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git $ZSH
-    cp $ZSH/templates/zshrc.zsh-template $VAGRANTHOME.zshrc
-sed "/^export ZSH=/ c\\
+	if [ -d $ZSH ]; then
+		sudo rm -f $ZSH
+	fi	
+    sudo git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git $ZSH
+	if [ -f $VAGRANTHOME.zshrc ]; then
+		sudo rm -f $VAGRANTHOME.zshrc
+	fi		
+    sudo cp $ZSH/templates/zshrc.zsh-template $VAGRANTHOME.zshrc
+sudo sed "/^export ZSH=/ c\\
 export ZSH=$ZSH
 " $VAGRANTHOME.zshrc > $VAGRANTHOME.zshrc-omztemp
-mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
-sed "/^plugins=(git)/ c\\
+sudo mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
+sudo sed "/^plugins=(git)/ c\\
 plugins=(git colored-man colorize command-not-found compleat cp history sublime urltools web-search autojump fasd jump redis-cli repo symfony symfony2 debian copydir copyfile laravel laravel4 laravel5 rsync)
 " $VAGRANTHOME.zshrc > $VAGRANTHOME.zshrc-omztemp
-mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
-    chsh -s /usr/bin/zsh vagrant	
+sudo mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
+    sudo chsh -s /usr/bin/zsh vagrant	
 	
     #
     # use .dotfiles from osx
@@ -132,19 +153,22 @@ mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
     # make tab complete case insensitive
     #
 	echo "make tab complete case insensitive ..."
-    echo set completion-ignore-case on | tee -a /etc/inputrc
+    sudo echo set completion-ignore-case on | sudo tee -a /etc/inputrc
     
     #
     # set up global gitignore
     #
 	#echo "set up global gitignore"
     #git config --global core.excludesfile ~/.gitignore_global
+	#if [ -f ~/.gitignore_global ]; then
+	#	sudo rm -f ~/.gitignore_global
+	#fi
     #echo ".DS_Store" > ~/.gitignore_global
     
     #
 	# install pdftotext
 	#
-    apt-get -y install poppler-utils
+    sudo apt-get -y install poppler-utils
     
     #
     # Install ruby
@@ -168,7 +192,7 @@ mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
 	#tar xvf go1.6.linux-amd64.tar.gz
 	#rm go1.6.linux-amd64.tar.gz
 	#chown -R root:root ./go
-	#mv go /usr/local
+	#mv -f go /usr/local
 	#echo "export GOPATH=\$HOME/work" >> $VAGRANTHOME.profile
 	#echo "export PATH=\$PATH:/usr/local/go/bin:\$GOPATH/bin" >> $VAGRANTHOME.profile
 	#source $VAGRANTHOME.profile
@@ -191,7 +215,7 @@ mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
     #apt-get -y install -qq openjdk-7-jre-headless
     #wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ELASTICSEARCH_VERSION.deb	
     #dpkg -i elasticsearch-$ELASTICSEARCH_VERSION.deb
-    #rm elasticsearch-$ELASTICSEARCH_VERSION.deb
+    #rm -f elasticsearch-$ELASTICSEARCH_VERSION.deb
 
     # Configure Elasticsearch for development purposes (1 shard/no replicas, don't allow it to swap at all if it can run without swapping)
     #sed -i "s/# index.number_of_shards: 1/index.number_of_shards: 1/" /etc/elasticsearch/elasticsearch.yml
@@ -205,7 +229,7 @@ mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
     #
     # remember that the extra software is installed
     #      
-    touch /usr/local/extra_homestead_software_installed
+    sudo touch /usr/local/extra_homestead_software_installed
 	
 else    
     echo "extra software already installed... moving on..."
