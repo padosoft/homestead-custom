@@ -20,13 +20,16 @@ sites:
     - map: homestead.dev
       to: /home/vagrant/Code/homestead/public
       schedule: true
+      params:
+          - key: APP_ENV
+            value: local
 
 databases:
     - homestead
 
-variables:
-    - key: APP_ENV
-      value: local
+#variables:
+#    - key: APP_ENV
+#      value: local
 
 # blackfire:
 #     - id: foo
