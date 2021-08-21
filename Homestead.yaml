@@ -1,0 +1,62 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+backup: true
+
+authorize: C:\Users\lopad\.ssh\id_rsa.pub
+
+keys:
+  - C:\Users\lopad\.ssh\id_rsa
+
+folders:
+  - map: C:\xampp\htdocs
+    to: /home/vagrant/code
+  - map: C:\xampp8\htdocs
+    to: /home/vagrant/codephp8
+
+sites:
+  - map: homestead.local
+    to: /home/vagrant/code/public
+#      php: "8.0"
+#      schedule: true
+#      params:
+#          - key: APP_ENV
+#            value: local
+
+databases:
+  #    - name: homestead
+  - name: gescat_laravel
+
+#variables:
+#      - key: APP_ENV
+#        value: local
+
+#features:
+#    - mysql: true
+#    - mariadb: false
+#    - postgresql: false
+#    - mongodb: false
+#    - ohmyzsh: false
+#    - webdriver: false
+
+#services:
+#    - enabled:
+#        - "postgresql@12-main"
+#    - disabled:
+#        - "postgresql@11-main"
+
+#ports:
+#    - send: 3306 # MySQL/MariaDB
+#      to: 33060
+#    - send: 4040
+#      to: 4040
+#    - send: 5432 # PostgreSQL
+#      to: 54320
+#    - send: 8025 # Mailhog
+#      to: 8025
+#    - send: 9600
+#      to: 9600
+#    - send: 27017
+#      to: 27017
