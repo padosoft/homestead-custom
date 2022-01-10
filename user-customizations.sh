@@ -155,7 +155,22 @@ sudo mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
     #
 	echo "make tab complete case insensitive ..."
     sudo echo set completion-ignore-case on | sudo tee -a /etc/inputrc
-    
+        		
+	#configuring mysql
+	echo "configuring mysql8"
+	sudo echo sql-mode="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION" | sudo tee -a /etc/mysql/conf.d/mysqld.cnf
+	sudo echo key_buffer_size=16M | sudo tee -a /etc/mysql/conf.d/mysqld.cnf
+	sudo echo max_allowed_packet=512M | sudo tee -a /etc/mysql/conf.d/mysqld.cnf
+	sudo echo sort_buffer_size=512M | sudo tee -a /etc/mysql/conf.d/mysqld.cnf
+	sudo echo net_buffer_length=8K | sudo tee -a /etc/mysql/conf.d/mysqld.cnf
+	sudo echo read_buffer_size=256K | sudo tee -a /etc/mysql/conf.d/mysqld.cnf
+	sudo echo read_rnd_buffer_size=512K | sudo tee -a /etc/mysql/conf.d/mysqld.cnf
+	sudo echo myisam_sort_buffer_size=8M | sudo tee -a /etc/mysql/conf.d/mysqld.cnf
+	
+	sudo sed -i 's/max_allowed_packet[[:space:]]=[[:space:]]16M/max_allowed_packet=512M/' /etc/mysql/conf.d/mysqldump.cnf
+	#sudo echo max_allowed_packet=512M | sudo tee -a /etc/mysql/conf.d/mysqldump.cnf
+	
+
     #
     # set up global gitignore
     #
