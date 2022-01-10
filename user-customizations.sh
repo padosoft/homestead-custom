@@ -102,14 +102,15 @@ if [ ! -f /usr/local/extra_homestead_software_installed ]; then
 	#
 	echo "installing php lib ..."
 	sudo apt-get -y install php-redis
-	sudo apt-get -y install php7.1-bz2
+	#sudo apt-get -y install php7.1-bz2
 	sudo apt-get -y install php-imagick
 	
 	#
 	# Restart php/nginx services
 	#
 	echo "Restart php/nginx services ..."
-    sudo service php7.1-fpm restart
+    #sudo service php7.1-fpm restart
+    sudo service php8.1-fpm restart
     sudo service nginx restart   
 
     #

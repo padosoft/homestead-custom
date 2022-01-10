@@ -8,17 +8,20 @@ backup: true
 authorize: C:\Users\lopad\.ssh\id_rsa.pub
 
 keys:
-  - C:\Users\lopad\.ssh\id_rsa
+    - C:\Users\lopad\.ssh\id_rsa
 
 folders:
-  - map: C:\xampp\htdocs
-    to: /home/vagrant/code
-  - map: C:\xampp8\htdocs
-    to: /home/vagrant/codephp8
+    - map: C:\xampp\htdocs
+      to: /home/vagrant/code
+#    - map: C:\xampp8\htdocs
+#      to: /home/vagrant/codephp80
+    - map: C:\xampp8\htdocs
+      to: /home/vagrant/codephp74
 
 sites:
-  - map: homestead.local
-    to: /home/vagrant/code/public
+    - map: homestead.local
+      to: /home/vagrant/code
+      php: "8.1"
 #      php: "8.0"
 #      schedule: true
 #      params:
@@ -26,8 +29,9 @@ sites:
 #            value: local
 
 databases:
-  #    - name: homestead
-  - name: gescat_laravel
+#    - name: homestead
+    - name: gescat_laravel
+    - name: timbratore
 
 #variables:
 #      - key: APP_ENV
