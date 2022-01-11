@@ -13,9 +13,9 @@ keys:
 folders:
     - map: C:\xampp\htdocs
       to: /home/vagrant/code
-#    - map: C:\xampp8\htdocs
-#      to: /home/vagrant/codephp80
     - map: C:\xampp8\htdocs
+      to: /home/vagrant/codephp80
+    - map: C:\xampp7.4\htdocs
       to: /home/vagrant/codephp74
 
 sites:
@@ -34,7 +34,7 @@ sites:
       schedule: true
       
     - map: phpmyadmin.local
-      to: /home/vagrant/code/phpmyadmin
+      to: /home/vagrant/codephp80/phpmyadmin
       php: "8.0"
 
 databases:
