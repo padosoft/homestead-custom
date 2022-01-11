@@ -28,7 +28,7 @@ sites:
 #          - key: APP_ENV
 #            value: local
 
-    - map: gescat.local
+    - map: gescat-laravel.local
       to: /home/vagrant/code/gescat-laravel/public
       php: "8.1"
       schedule: true
