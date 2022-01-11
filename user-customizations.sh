@@ -168,8 +168,16 @@ sudo mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
 	sudo echo myisam_sort_buffer_size=8M | sudo tee -a /etc/mysql/conf.d/mysqld.cnf
 	
 	sudo sed -i 's/max_allowed_packet[[:space:]]=[[:space:]]16M/max_allowed_packet=512M/' /etc/mysql/conf.d/mysqldump.cnf
+
 	#sudo echo max_allowed_packet=512M | sudo tee -a /etc/mysql/conf.d/mysqldump.cnf
 	
+	#configuring memory_limit && max_execution_time php.ini for 7.4/8.0/8.1
+	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/7.4/fpm/php.ini
+	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/7.4/fpm/php.ini
+	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/8.0/fpm/php.ini
+	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/8.0/fpm/php.ini
+	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/8.1/fpm/php.ini
+	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/8.1/fpm/php.ini
 
     #
     # set up global gitignore
@@ -241,6 +249,27 @@ sudo mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
 
     # Configure to start up Elasticsearch automatically
     #update-rc.d elasticsearch defaults 95 10
+	
+	#Download and install phpMyAdmin latest version
+	echo "Installing phpmyadmin lastest version..."
+	cd  /home/vagrant/codephp80
+	if [ -d /home/vagrant/codephp80 ]; then
+		echo "remove existent /home/vagrant/codephp80/phpmyadmin directory..."
+		sudo rm -R --interactive=never phpmyadmin
+	fi
+	VERSION_INFO="$(sudo curl -sS 'https://www.phpmyadmin.net/home_page/version.txt')"
+	LATEST_VERSION="$(sudo echo -e "$VERSION_INFO" | head -n 1)"
+	LATEST_VERSION_URL="$(sudo echo -e "$VERSION_INFO" | tail -n 1)"
+	# We want the .tar.gz version
+	LATEST_VERSION_URL="${LATEST_VERSION_URL/.zip/.tar.gz}"
+
+	echo "Downloading phpMyAdmin $LATEST_VERSION ($LATEST_VERSION_URL)"
+	sudo curl $LATEST_VERSION_URL -q -# -o 'phpmyadmin.tar.gz'
+
+	sudo mkdir phpmyadmin && sudo tar xf phpmyadmin.tar.gz -C phpmyadmin --strip-components 1
+
+	sudo rm phpmyadmin.tar.gz
+
     
     #
     # remember that the extra software is installed
