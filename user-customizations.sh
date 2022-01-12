@@ -105,6 +105,20 @@ if [ ! -f /usr/local/extra_homestead_software_installed ]; then
 	#sudo apt-get -y install php7.1-bz2
 	sudo apt-get -y install php-imagick
 	
+		
+	#
+	# CONFIGURING PHP: 
+	# configuring memory_limit && max_execution_time php.ini for 7.4/8.0/8.1
+	#
+	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/7.4/fpm/php.ini
+	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/7.4/fpm/php.ini
+	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/8.0/fpm/php.ini
+	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/8.0/fpm/php.ini
+	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/8.1/fpm/php.ini
+	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/8.1/fpm/php.ini
+
+
+	
 	#
 	# Restart php/nginx services
 	#
@@ -168,16 +182,12 @@ sudo mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
 	sudo echo myisam_sort_buffer_size=8M | sudo tee -a /etc/mysql/conf.d/mysqld.cnf
 	
 	sudo sed -i 's/max_allowed_packet[[:space:]]=[[:space:]]16M/max_allowed_packet=512M/' /etc/mysql/conf.d/mysqldump.cnf
-
 	#sudo echo max_allowed_packet=512M | sudo tee -a /etc/mysql/conf.d/mysqldump.cnf
-	
-	#configuring memory_limit && max_execution_time php.ini for 7.4/8.0/8.1
-	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/7.4/fpm/php.ini
-	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/7.4/fpm/php.ini
-	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/8.0/fpm/php.ini
-	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/8.0/fpm/php.ini
-	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/8.1/fpm/php.ini
-	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/8.1/fpm/php.ini
+
+	#
+	# Restart mysql services
+	#
+	sudo /etc/init.d/mysql restart
 
     #
     # set up global gitignore
