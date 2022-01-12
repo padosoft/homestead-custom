@@ -44,7 +44,8 @@ if [ ! -f /usr/local/extra_homestead_software_installed ]; then
 	if [ -f /etc/nanorc ]; then
 		sudo rm -f /etc/nanorc
 	fi	
-	sudo cat /usr/share/nano/scopatz/nanorc/*.nanorc >> /etc/nanorc
+	#sudo cat /usr/share/nano/scopatz/nanorc/*.nanorc >> /etc/nanorc
+	sudo cat /usr/share/nano/scopatz/nanorc/*.nanorc | sudo tee -a /etc/nanorc
 	cd $VAGRANTHOME
 	
 	#
@@ -111,11 +112,17 @@ if [ ! -f /usr/local/extra_homestead_software_installed ]; then
 	# configuring memory_limit && max_execution_time php.ini for 7.4/8.0/8.1
 	#
 	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/7.4/fpm/php.ini
+	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/7.4/cli/php.ini
 	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/7.4/fpm/php.ini
+	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/7.4/cli/php.ini
 	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/8.0/fpm/php.ini
+	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/8.0/cli/php.ini
 	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/8.0/fpm/php.ini
+	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/8.0/cli/php.ini
 	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/8.1/fpm/php.ini
+	sudo sed -i 's/max_execution_time[[:space:]]=[[:space:]]30/max_execution_time=120/' /etc/php/8.1/cli/php.ini
 	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/8.1/fpm/php.ini
+	sudo sed -i 's/memory_limit[[:space:]]=[[:space:]]512M/memory_limit=4096M/' /etc/php/8.1/cli/php.ini
 
 
 	
@@ -263,7 +270,7 @@ sudo mv -f $VAGRANTHOME.zshrc-omztemp $VAGRANTHOME.zshrc
 	#Download and install phpMyAdmin latest version
 	echo "Installing phpmyadmin lastest version..."
 	cd  /home/vagrant/codephp80
-	if [ -d /home/vagrant/codephp80 ]; then
+	if [ -d /home/vagrant/codephp80/phpmyadmin ]; then
 		echo "remove existent /home/vagrant/codephp80/phpmyadmin directory..."
 		sudo rm -R --interactive=never phpmyadmin
 	fi
